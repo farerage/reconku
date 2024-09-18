@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reconku</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+    
+        html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #003135; 
+    background-color: #AFDDE5; 
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    border-bottom: 2px solid #024950; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.hero {
+    background: linear-gradient(to right, #003135, #0FA4AF); 
+    color: #ffffff;
+    padding: 80px 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 1.5rem;
+    margin-top: 10px;
+}
+
+.container {
+    flex: 1;
+    padding: 20px;
+}
+
+.form-container {
+    margin-top: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    background-color: #E0F2F1;
+}
+
+.card-header {
+    background-color: #024950; 
+    color: #ffffff;
+    border-bottom: none;
+    font-size: 1.75rem;
+    font-weight: 700;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.card-body {
+    padding: 40px;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #003135; 
+}
+
+.form-control-file {
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+}
+
+.btn-primary {
+    background-color: #964734; 
+    border-color: #964734;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background-color: #7b3a29; 
+    border-color: #7b3a29;
+}
+
+.alert {
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.footer {
+    background-color: #003135; 
+    color: #ffffff;
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.footer {
+    margin-top: auto;
+}
+
+
+
+@media (max-width: 768px) {
+    .hero {
+        padding: 60px 10px;
+    }
+    
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero p {
+        font-size: 1.25rem;
+    }
+    
+    .card-body {
+        padding: 20px;
+    }
+}
+
+
+
+    </style>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            handleModuleChange(); 
+        });
+
+        function handleModuleChange() {
+            const selectedModule = document.getElementById('reconciliation_module').value;
+            const fileContainer = document.getElementById('file_container');
+            const file2Group = document.getElementById('file2_group');
+
+           
+            fileContainer.innerHTML = '';
+
+            
+            let fileInputs = [];
+            if (selectedModule === 'doku') {
+                fileInputs = [
+                    { id: 'file1_1', label: 'Mandiri' },
+                    { id: 'file1_2', label: 'BCA' },
+                    { id: 'file1_3', label: 'BSI' }
+                ];
+            } else if (selectedModule === 'ocbc_bac' || selectedModule === 'linkaja' || selectedModule === 'ewalletdana' || selectedModule === 'dummy') {
+                fileInputs = [
+                    { id: 'file1_1', label: 'Upload Source Data File 1 (CSV/Excel):' }
+                ];
+            }
+
+            
+            fileInputs.forEach(input => {
+                const div = document.createElement('div');
+                div.classList.add('form-group');
+                div.innerHTML = `
+                    <label for="${input.id}">${input.label}</label>
+                    <input type="file" class="form-control-file" id="${input.id}" name="file1" accept=".csv, .xlsx, .xls">
+                `;
+                fileContainer.appendChild(div);
+            });
+
+            
+            file2Group.style.display = (selectedModule === 'doku' || selectedModule === 'ocbc_bac' || selectedModule === 'linkaja' || selectedModule === 'ewalletdana' || selectedModule === 'dummy') ? 'block' : 'none';
+        }
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Reconku</a>
+        <div class="ml-auto">
+            <a href="{{ url_for('logout') }}" class="btn btn-outline-light">Logout</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <h1 class="display-4">Effortless Reconciliation</h1>
+            <p class="lead">Easily upload and reconcile your files with Reconku.</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="form-container card">
+            <div class="card-header text-center">
+                <h4>Upload Your Files</h4>
+            </div>
+            <div class="card-body">
+                
+                {% with messages = get_flashed_messages(with_categories=True) %}
+                    {% if messages %}
+                        <div class="alert alert-dismissible fade show" role="alert">
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">{{ message }}</div>
+                            {% endfor %}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                
+                <form action="{{ url_for('upload_files') }}" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="reconciliation_module">Choose Reconciliation Module:</label>
+                        <select class="form-control" id="reconciliation_module" name="reconciliation_module" onchange="handleModuleChange()" required>
+                            {% for key, value in modules.items() %}
+                                <option value="{{ key }}">{{ key }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div id="file_container">
+                        
+                    </div>
+                    <div id="file2_group" class="form-group" style="display:none;">
+                        <label for="file2">Upload Source Data File 2 (CSV/Excel):</label>
+                        <input type="file" class="form-control-file" id="file2" name="file2" accept=".csv, .xlsx, .xls" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Reconcile</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Farera Gerry. All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

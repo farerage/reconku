@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reconciliation Result</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #AFDDE5; /* Light Blue */
+            color: #003135; /* Dark Teal */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .navbar {
+            border-bottom: 3px solid #024950; /* Dark Teal */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .hero {
+            background: linear-gradient(to right, #003135, #0FA4AF); /* Dark Teal to Aqua Blue */
+            color: #ffffff; /* Default text color */
+            padding: 100px 20px;
+            text-align: center;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+            margin-bottom: -60px; /* Adjust to ensure overlap */
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #003135; /* Dark Teal */
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-top: 10px;
+            color: #003135; /* Dark Teal */
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 40px;
+            background-color: #E0F2F1; /* Light Grayish Teal */
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 2;
+            margin-top: -40px; /* Ensure it overlaps correctly */
+        }
+
+        .btn-primary {
+            background-color: #964734; /* Rusty Orange */
+            border-color: #964734;
+            border-radius: 8px;
+            font-weight: 600;
+            padding: 12px 24px;
+            font-size: 1.125rem;
+            margin-top: 20px;
+        }
+
+        .btn-primary:hover {
+            background-color: #7b3a29; /* Darker Rusty Orange */
+            border-color: #7b3a29;
+        }
+
+        .footer {
+            background-color: #003135; /* Dark Teal */
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            width: 100%;
+            box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+            margin-top: auto; /* Ensure footer is pushed to the bottom */
+        }
+
+        .footer p {
+            margin: 0;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 767px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.125rem;
+            }
+
+            .container {
+                margin: 20px auto;
+                padding: 20px;
+                margin-top: -20px; /* Adjust for mobile */
+            }
+
+            .btn-primary {
+                font-size: 1rem;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Reconciliation Tool</a>
+        <div class="ml-auto">
+            <a href="{{ url_for('logout') }}" class="btn btn-outline-light">Logout</a>
+        </div>
+    </nav>
+
+    <header class="hero text-center">
+        <div class="container">
+            <h1 class="display-4">Reconciliation Complete</h1>
+            <p class="lead">Your reconciliation has been successfully completed.</p>
+        </div>
+    </header>
+
+    <div class="container text-center">
+        <a href="{{ url_for('download_file', filename=filename) }}" class="btn btn-primary btn-lg">Download Result</a>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Farera Gerry. All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
